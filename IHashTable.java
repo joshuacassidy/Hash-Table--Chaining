@@ -1,8 +1,8 @@
-public interface IHashTable {
+public interface IHashTable<Key, Value> {
     public int getSize();
     public boolean isEmpty();
-    public int remove(int key);
-    public int get(int key);
-    public void put(int key, int value);
+    public Value remove(Key key);
+    public Value get(Key key);
+    public void put(Key key, Value value);
     public void resize(int newCapacity);
 }

@@ -1,6 +1,6 @@
-public class HashTable implements IHashTable{
+public class HashTable<Key, Value> implements IHashTable{
 
-    private HashItem[] hashTable;
+    private HashItem<Key, Value>[] hashTable;
 
     private int size;
     private int capacity;
@@ -16,27 +16,26 @@ public class HashTable implements IHashTable{
     }
 
 
-    private int hash(int key) {
-        return Math.abs(key) % capacity;
+    private int hash(Key key) {
+        return Math.abs(key.hashCode()) % capacity;
     }
 
-    @Override
-    public int get(int key) {
-        int generatedArrayIndex = hash(key);
-        HashItem hashItem = hashTable[generatedArrayIndex];
+    public Value get(Object key) {
+        int generatedArrayIndex = hash((Key) key);
+        HashItem<Key, Value> hashItem = hashTable[generatedArrayIndex];
         while (hashItem != null && hashItem.getKey() != key) {
             hashItem = hashItem.getNext();
         }
-        if (hashItem.getKey() == key) {
+        if (hashItem.getKey().equals(key)) {
             return hashItem.getValue();
         } else {
             throw new HashItemNotFoundException("Hash Item could not be found");
         }
     }
 
-    @Override
-    public void put(int key, int value) {
-        int hashArrayIndex = hash(key);
+
+    public void put(Object key, Object value) {
+        int hashArrayIndex = hash((Key)key);
         HashItem hashItem = hashTable[hashArrayIndex];
         while (hashItem != null) {
             if (hashItem.key == (key)) {
@@ -47,7 +46,7 @@ public class HashTable implements IHashTable{
         }
         size++;
         hashItem = hashTable[hashArrayIndex];
-        HashItem newItem = new HashItem(key, value);
+        HashItem<Key, Value> newItem = new HashItem<>((Key) key, (Value) value);
         newItem.next = hashItem;
         hashTable[hashArrayIndex] = newItem;
 
@@ -57,9 +56,9 @@ public class HashTable implements IHashTable{
     }
 
     @Override
-    public int remove(int key) {
-        int hashArrayIndex = hash(key);
-        HashItem hashItem = hashTable[hashArrayIndex];
+    public Value remove(Object key) {
+        int hashArrayIndex = hash((Key) key);
+        HashItem<Key, Value> hashItem = hashTable[hashArrayIndex];
         HashItem prev = null;
         while (hashItem != null && hashItem.key != (key)) {
             prev = hashItem;
@@ -96,22 +95,21 @@ public class HashTable implements IHashTable{
         return table;
     }
 
-    @Override
     public void resize(int newCapacity) {
         capacity = newCapacity;
         HashItem[] cloneTable = new HashItem[newCapacity];
-        for (HashItem i: hashTable) {
+        for (HashItem<Key, Value> i: hashTable) {
             if (i != null) {
                 while (i != null) {
                     int hashArrayIndex = hash(i.getKey());
                     if( cloneTable[hashArrayIndex] == null) {
-                        cloneTable[hashArrayIndex] = new HashItem(i.getKey(),i.getValue());
+                        cloneTable[hashArrayIndex] = new HashItem<>(i.getKey(),i.getValue());
                     } else {
                         HashItem hashItem = cloneTable[hashArrayIndex];
                         while (hashItem.getNext() != null) {
                             hashItem = hashItem.getNext();
                         }
-                        hashItem.setNext(new HashItem(i.getKey(),i.getValue()));
+                        hashItem.setNext(new HashItem<>(i.getKey(),i.getValue()));
                     }
                     i = i.getNext();
                 }

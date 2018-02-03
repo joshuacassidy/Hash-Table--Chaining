@@ -1,18 +1,19 @@
-public class HashItem {
+public class HashItem<Key, Value> {
 
-    public int key, value;
+    public Key key;
+    public Value value;
     public HashItem next;
 
-    public HashItem(int key, int value) {
+    public HashItem(Key key, Value value) {
         this.key = key;
         this.value = value;
     }
 
-    public int getKey() {
+    public Key getKey() {
         return key;
     }
 
-    public int getValue() {
+    public Value getValue() {
         return value;
     }
 
@@ -20,11 +21,11 @@ public class HashItem {
         return next;
     }
 
-    public void setKey(int key) {
+    public void setKey(Key key) {
         this.key = key;
     }
 
-    public void setValue(int value) {
+    public void setValue(Value value) {
         this.value = value;
     }
 
