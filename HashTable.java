@@ -2,8 +2,7 @@ public class HashTable<Key, Value> implements IHashTable{
 
     private HashItem<Key, Value>[] hashTable;
 
-    private int size;
-    private int capacity;
+    private int size, capacity;
 
     public HashTable() {
         this.capacity = 10;
@@ -11,8 +10,8 @@ public class HashTable<Key, Value> implements IHashTable{
     }
 
     public HashTable(int capacity) {
-        this.hashTable = new HashItem[capacity];
         this.capacity = capacity;
+        this.hashTable = new HashItem[capacity];
     }
 
 
@@ -38,8 +37,8 @@ public class HashTable<Key, Value> implements IHashTable{
         int hashArrayIndex = hash((Key)key);
         HashItem hashItem = hashTable[hashArrayIndex];
         while (hashItem != null) {
-            if (hashItem.key == (key)) {
-                hashItem.value = value;
+            if (hashItem.getKey() == (key)) {
+                hashItem.setValue(value);
                 return;
             }
             hashItem = hashItem.getNext();
@@ -62,7 +61,7 @@ public class HashTable<Key, Value> implements IHashTable{
         HashItem prev = null;
         while (hashItem != null && hashItem.key != (key)) {
             prev = hashItem;
-            hashItem = hashItem.next;
+            hashItem = hashItem.getNext();
         }
 
         if (hashItem == null) {
@@ -71,12 +70,12 @@ public class HashTable<Key, Value> implements IHashTable{
         size--;
 
         if (prev != null) {
-            prev.next = hashItem.next;
+            prev.next = hashItem.getNext();
         } else {
-            hashTable[hashArrayIndex] = hashItem.next;
+            hashTable[hashArrayIndex] = hashItem.getNext();
         }
 
-        return hashItem.value;
+        return hashItem.getValue();
     }
 
     public String toString() {
