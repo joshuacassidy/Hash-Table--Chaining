@@ -1,8 +1,10 @@
 import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class HashTableTest {
+
 
     HashTable<Integer, Integer> hashTable;
 
@@ -61,5 +63,7 @@ public class HashTableTest {
         hashTable.put(1,1);
         assertEquals(false, hashTable.isEmpty());
     }
+
+    
 
 }

@@ -74,7 +74,9 @@ public class HashTable<Key, Value> implements IHashTable{
         } else {
             hashTable[hashArrayIndex] = hashItem.getNext();
         }
-
+        if (size <= capacity /3) {
+            resize(capacity/2);
+        }
         return hashItem.getValue();
     }
 
@@ -120,6 +122,10 @@ public class HashTable<Key, Value> implements IHashTable{
     @Override
     public int getSize() {
         return size;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 
     @Override
