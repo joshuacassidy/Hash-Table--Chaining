@@ -64,6 +64,19 @@ public class HashTableTest {
         assertEquals(false, hashTable.isEmpty());
     }
 
-    
+    @Test
+    public void resize() throws Exception {
+        for (int i = 0; i < 8; i++) {
+            hashTable.put(i,i);
+        }
+        assertEquals(8,hashTable.getSize());
+        assertEquals(20,hashTable.getCapacity());
+
+        for (int i = 0; i < 6; i++) {
+            hashTable.remove(i);
+        }
+        assertEquals(2,hashTable.getSize());
+        assertEquals(5,hashTable.getCapacity());
+    }
 
 }

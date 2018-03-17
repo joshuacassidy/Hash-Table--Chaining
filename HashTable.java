@@ -1,4 +1,4 @@
-public class HashTable<Key, Value> implements IHashTable{
+public class HashTable<Key, Value> implements IHashTable<Key, Value>{
 
     private HashItem<Key, Value>[] hashTable;
 
@@ -19,8 +19,8 @@ public class HashTable<Key, Value> implements IHashTable{
         return Math.abs(key.hashCode()) % capacity;
     }
 
-    public Value get(Object key) {
-        int generatedArrayIndex = hash((Key) key);
+    public Value get(Key key) {
+        int generatedArrayIndex = hash(key);
         HashItem<Key, Value> hashItem = hashTable[generatedArrayIndex];
         while (hashItem != null && hashItem.getKey() != key) {
             hashItem = hashItem.getNext();
@@ -33,8 +33,8 @@ public class HashTable<Key, Value> implements IHashTable{
     }
 
 
-    public void put(Object key, Object value) {
-        int hashArrayIndex = hash((Key)key);
+    public void put(Key key, Value value) {
+        int hashArrayIndex = hash(key);
         HashItem hashItem = hashTable[hashArrayIndex];
         while (hashItem != null) {
             if (hashItem.getKey() == (key)) {
@@ -45,7 +45,7 @@ public class HashTable<Key, Value> implements IHashTable{
         }
         size++;
         hashItem = hashTable[hashArrayIndex];
-        HashItem<Key, Value> newItem = new HashItem<>((Key) key, (Value) value);
+        HashItem<Key, Value> newItem = new HashItem<>(key, value);
         newItem.next = hashItem;
         hashTable[hashArrayIndex] = newItem;
 
@@ -55,8 +55,8 @@ public class HashTable<Key, Value> implements IHashTable{
     }
 
     @Override
-    public Value remove(Object key) {
-        int hashArrayIndex = hash((Key) key);
+    public Value remove(Key key) {
+        int hashArrayIndex = hash(key);
         HashItem<Key, Value> hashItem = hashTable[hashArrayIndex];
         HashItem prev = null;
         while (hashItem != null && hashItem.key != (key)) {
